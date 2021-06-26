@@ -1,0 +1,73 @@
+### Erlang GPG Key ###
+- name: Cloudsmith Erlang GPG Key
+  apt_key:
+    url: "{{ erlang_deb_gpg_url }}"
+    state: present
+  register: _add_apt_key
+  until: _add_apt_key is succeeded
+  retries: 5
+  delay: 2
+
+#### Rabbitmq GPG Key ####
+- name: Cloudsmith RabbitMQ GPG Key
+  apt_key:
+    url: "{{ rabbitmq_deb_gpg_url }}"
+    state: present
+  register: _add_apt_key
+  until: _add_apt_key is succeeded
+  retries: 5
+  delay: 2
+
+### Erlang repository###
+- name: Cloudsmith Erlang/OTP Debian Repo
+  apt_repository:
+    repo: "deb {{ erlang_deb_repo_url }}/{{ ansible_distribution }} {{ ansible_distribution_release }} main"
+    filename: erlang
+    update_cache: yes
+
+- name: Cloudsmith Erlang/OTP Debian-src Repo
+  apt_repository:
+    repo: "deb-src {{ erlang_deb_repo_url }}/{{ ansible_distribution }} {{ ansible_distribution_release }} main"
+    filename: erlang
+    update_cache: yes
+
+## Rabbitmq repository###
+- name: Cloudsmith Rabbitmq Debian Repo
+  apt_repository:
+    repo: "deb {{ rabbitmq_deb_repo_url }}/{{ ansible_distribution }} {{ ansible_distribution_release }} main"
+    filename: rabbitmq
+    update_cache: yes
+
+- name: Cloudsmith Rabbitmq Debian-src Repo
+  apt_repository:
+    repo: "deb-src {{ rabbitmq_deb_repo_url }}/{{ ansible_distribution }} {{ ansible_distribution_release }} main"
+    filename: rabbitmq
+    update_cache: yes
+
+- name: Set package erlang preference
+  copy:
+    dest: /etc/apt/preferences.d/erlang
+    content: |
+      Package: erlang*
+      Pin: version 1:23.3*
+      Pin-Priority: 1000
+
+- name: Set package rabbitmq-server preference
+  copy:
+    dest: /etc/apt/preferences.d/rabbitmq
+    content: |
+      Package: rabbitmq-server
+      Pin: version 1:{{ rabbitmq_version }}
+      Pin-Priority: 1000
+
+- name: "Install Erlang [Debian/{{ ansible_distribution }}]"
+  apt:
+    package:
+      - erlang
+    state: present
+    autoremove: yes
+
+- name: Install RabbitMQ
+  apt:
+    name: rabbitmq-server
+    state: present

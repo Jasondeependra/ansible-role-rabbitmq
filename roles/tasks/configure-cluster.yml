@@ -1,7 +1,7 @@
 ---
 - name: set erlang cookie
   template:
-    src: erlang.cookie.j2
+    src: etc/rabbitmq/erlang.cookie.j2
     dest: "{{ rabbitmq_erlang_cookie_file }}"
     owner: rabbitmq
     group: rabbitmq
