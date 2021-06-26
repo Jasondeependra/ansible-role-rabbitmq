@@ -21,26 +21,26 @@
 ### Erlang repository###
 - name: Cloudsmith Erlang/OTP Debian Repo
   apt_repository:
-    repo: "deb {{ erlang_deb_repo_url }}/{{ ansible_distribution }} {{ ansible_distribution_release }} main"
+    repo: "deb {{ erlang_deb_repo_url }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release | lower }} main"
     filename: erlang
     update_cache: yes
 
 - name: Cloudsmith Erlang/OTP Debian-src Repo
   apt_repository:
-    repo: "deb-src {{ erlang_deb_repo_url }}/{{ ansible_distribution }} {{ ansible_distribution_release }} main"
+    repo: "deb-src {{ erlang_deb_repo_url }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release | lower }} main"
     filename: erlang
     update_cache: yes
 
 ## Rabbitmq repository###
 - name: Cloudsmith Rabbitmq Debian Repo
   apt_repository:
-    repo: "deb {{ rabbitmq_deb_repo_url }}/{{ ansible_distribution }} {{ ansible_distribution_release }} main"
+    repo: "deb {{ rabbitmq_deb_repo_url }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release | lower }} main"
     filename: rabbitmq
     update_cache: yes
 
 - name: Cloudsmith Rabbitmq Debian-src Repo
   apt_repository:
-    repo: "deb-src {{ rabbitmq_deb_repo_url }}/{{ ansible_distribution }} {{ ansible_distribution_release }} main"
+    repo: "deb-src {{ rabbitmq_deb_repo_url }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release | lower }} main"
     filename: rabbitmq
     update_cache: yes
 
